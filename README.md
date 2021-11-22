@@ -21,6 +21,7 @@ bash <( curl -sSL https://raw.githubusercontent.com/unixxio/install-nginx/main/i
 * Generate Diffie-Hellman (DH) parameters (1024, 2048, 4096 or 8192 bits)
 * Support TLSv1.2 and TLSv1.3
 * Support OCSP
+* Qualys SSL Labs A+ rating
 
 **Locations**
 * /etc/nginx/nginx.conf (general configuration)
