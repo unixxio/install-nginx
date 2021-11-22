@@ -22,7 +22,7 @@ disk="$(df -h | awk '$NF=="/"{printf "%d / %dGB (%s)\n", $3,$2,$5}')"
 cpu="$(top -bn1 | grep load | awk '{printf "%.2f\n", $(NF-2)}')"
 last_reboot="$(last | grep reboot | head -1 | awk '{print $5, $6, $7, $8}')"
 
-packages="lsof wget curl gnupg2 ca-certificates lsb-release openssl tee"
+packages="lsof wget curl gnupg2 ca-certificates lsb-release openssl"
 
 # Check if script is run as root
 if [[ $EUID -ne 0 ]]; then
