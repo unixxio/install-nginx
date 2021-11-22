@@ -100,6 +100,12 @@ do
     esac
 done
 
+# Generate a selfsigned certificate
+echo ""
+openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -keyout selfsigned.tmp.key -out selfsigned.tmp.crt
+cat selfsigned.tmp.key selfsigned.tmp.crt > /etc/ssl/private/selfsigned.pem
+rm selfsigned.tmp*
+
 # Generate DH param
 echo -e "\nGenerating Diffie-Hellman (DH) parameters (${dhparam}). Please wait...\n"
 openssl dhparam -out /etc/ssl/private/dhparam.pem ${dhparam} > /dev/null 2>&1
@@ -191,13 +197,17 @@ EOF
 tee /etc/nginx/vhosts/default.conf <<'EOF' > /dev/null 2>&1
 server {
   listen [::]:80 default_server ipv6only=off;
-
-  root /srv/www/;
+  listen [::]:443 default_server ipv6only=off ssl http2;
 
   server_name _;
 
+  ssl_certificate /etc/ssl/private/selfsigned.pem;
+  ssl_certificate_key /etc/ssl/private/selfsigned.pem;
+  
   access_log /var/log/nginx/default.access.log combined;
   error_log /var/log/nginx/default.error.log;
+
+  root /srv/www/;
 
   location / {
     try_files $uri $uri/ /index.php?$args;
