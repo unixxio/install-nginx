@@ -100,15 +100,15 @@ do
     esac
 done
 
+# Generate DH param
+echo -e "\nGenerating Diffie-Hellman (DH) parameters (${dhparam}). Please wait...\n"
+openssl dhparam -out /etc/ssl/private/dhparam.pem ${dhparam} > /dev/null 2>&1
+
 # Generate a selfsigned certificate
 echo ""
 openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 -keyout selfsigned.tmp.key -out selfsigned.tmp.crt
 cat selfsigned.tmp.key selfsigned.tmp.crt > /etc/ssl/private/selfsigned.pem
 rm selfsigned.tmp*
-
-# Generate DH param
-echo -e "\nGenerating Diffie-Hellman (DH) parameters (${dhparam}). Please wait...\n"
-openssl dhparam -out /etc/ssl/private/dhparam.pem ${dhparam} > /dev/null 2>&1
 
 # Remove old init
 rm /etc/init.d/nginx > /dev/null 2>&1
