@@ -2,6 +2,11 @@
 
 This installer should work on any Debian based OS. This also includes Ubuntu. If it detects a webserver (Apache/NGINX) running on port 80, it will abort installation.
 
+**Install CURL first**
+```
+apt-get install curl -y
+```
+
 ### Run the installer with the following command
 ```
 bash <( curl -sSL https://raw.githubusercontent.com/unixxio/install-nginx/main/install-nginx.sh )
