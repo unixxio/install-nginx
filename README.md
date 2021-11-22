@@ -19,13 +19,12 @@ bash <( curl -sSL https://raw.githubusercontent.com/unixxio/install-nginx/main/i
 * Install the latest NGINX version from APT (official repository)
 * Generate Diffie-Hellman (DH) parameters (1024, 2048, 4096 or 8192 bits)
 * Support TLSv1.2 and TLSv1.3
-* Enable OCSP
+* Support OCSP
 
 **Locations**
-* nginx.conf: /etc/nginx/nginx.conf
-* vhosts: /etc/nginx/vhosts/
-* default webroot: /srv/www/
-* dhparam.pem: /etc/ssl/private/dhparam.pem
+* /etc/nginx/nginx.conf (general configuration)
+* /etc/nginx/vhosts (virtual hosts)
+* /var/www/html (default webroot)
 
 **NGINX Commands**
 
