@@ -1,4 +1,5 @@
 # Install NGINX
+**Last Update**: November 22, 2021
 
 This installer should work on any Debian based OS. This also includes Ubuntu. If it detects a webserver (Apache/NGINX) running on port 80, it will abort installation.
 
