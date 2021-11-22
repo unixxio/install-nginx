@@ -17,12 +17,8 @@ release="$(lsb_release -sc)"
 version="$(lsb_release -sr)"
 kernel="$(uname -r)"
 uptime="$(uptime -p | cut -d " " -f2-)"
-memory="$(free -m | awk 'NR==2{printf "%s / %sMB (%.2f%%)\n", $3,$2,$3*100/$2 }')"
-disk="$(df -h | awk '$NF=="/"{printf "%d / %dGB (%s)\n", $3,$2,$5}')"
-cpu="$(top -bn1 | grep load | awk '{printf "%.2f\n", $(NF-2)}')"
-last_reboot="$(last | grep reboot | head -1 | awk '{print $5, $6, $7, $8}')"
 
-packages="lsof wget curl gnupg2 ca-certificates lsb-release openssl"
+packages="lsof wget curl openssl gnupg2 ca-certificates lsb-release debian-archive-keyring"
 
 # Check if script is run as root
 if [[ $EUID -ne 0 ]]; then
@@ -35,11 +31,7 @@ echo -e "\nDistribution : ${distro}"
 echo -e "Release      : ${release}"
 echo -e "Version      : ${version}"
 echo -e "Kernel       : ${kernel}"
-echo -e "\nUptime       : ${uptime}"
-echo -e "Last Reboot  : ${last_reboot}"
-echo -e "\nMemory Usage : ${memory}"
-echo -e "Disk Usage   : ${disk}"
-echo -e "CPU Load     : ${cpu}"
+echo -e "Uptime       : ${uptime}"
 
 # Check if a webserver (Nginx/Apache) is already running on port 80
 if [[ $(lsof -i TCP:80) ]]; then
@@ -57,7 +49,7 @@ deb-src https://nginx.org/packages/mainline/${distro}/ ${release} nginx
 EOF
 
 # Add GPG key to OS
-wget -qO - https://nginx.org/keys/nginx_signing.key | apt-key add - > /dev/null 2>&1
+wget -O /etc/apt/trusted.gpg.d/nginx.asc https://nginx.org/keys/nginx_signing.key > /dev/null 2>&1
 
 # Update packages
 apt-get update > /dev/null 2>&1 && apt-get upgrade -y > /dev/null 2>&1
@@ -203,7 +195,7 @@ server {
 
   ssl_certificate /etc/ssl/private/selfsigned.pem;
   ssl_certificate_key /etc/ssl/private/selfsigned.pem;
-  
+
   access_log /var/log/nginx/default.access.log combined;
   error_log /var/log/nginx/default.error.log;
 
@@ -222,7 +214,7 @@ mv /var/www/html/index.nginx-debian.html /var/www/html/index.html > /dev/null 2>
 systemctl daemon-reload
 systemctl start nginx
 
-echo -e "NGINX is now installed and running. Enjoy! ;-)\n"
+echo -e "\nNGINX is now installed and running. Enjoy! ;-)\n"
 
-# Exit script
+# End script
 exit 0
