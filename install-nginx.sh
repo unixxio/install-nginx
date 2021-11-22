@@ -199,7 +199,7 @@ server {
   access_log /var/log/nginx/default.access.log combined;
   error_log /var/log/nginx/default.error.log;
 
-  root /srv/www/;
+  root /var/www/html;
 
   location / {
     try_files $uri $uri/ /index.php?$args;
