@@ -207,8 +207,9 @@ server {
 }
 EOF
 
-# Rename default nginx index.html
-mv /var/www/html/index.nginx-debian.html /var/www/html/index.html > /dev/null 2>&1
+# Create default webroot with index.html
+mkdir -p /var/www/html > /dev/null 2>&1
+cp /usr/share/nginx/html/index.html /var/www/html/ > /dev/null 2>&1
 
 # Start nginx
 systemctl daemon-reload
